@@ -1,0 +1,31 @@
+<div class="container">
+	<section class="login">
+		<div class="row">
+			<div class="col-md-12">
+				<%= image_tag "financeLogo.png", width: "100%" %>
+				<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+					<div class="form-group">
+						<%= f.label :email,'Email', class: "control-label" %>
+    					<%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Dígite seu email" %>
+					</div>
+					<div class="form-group">
+						<%= f.label :password,'Senha', class: "control-label" %>
+    					<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Dígite sua senha" %>
+					</div>
+			        <% if devise_mapping.rememberable? -%>
+						<div class="checkbox pull-left">
+						    <label>
+								  <%= f.check_box :remember_me %> Manter conectado
+						    </label>
+						</div>
+					<% end -%>
+					<%= f.submit "Entrar", class: "btn btn-primary pull-right" %>
+				<% end %>
+			</div>
+		</div>
+	</section>
+</div>
+
+<!--
+<%= render "admins/shared/links" %>
+-->

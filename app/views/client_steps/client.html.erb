@@ -1,0 +1,44 @@
+<% provide(:page_title, "Adicionar novo cliente") %>
+
+<%= render layout: 'form' do |f| %>
+	<h4>CADASTRO NACIONAL DA PESSOA JURÍDICA</h4>
+	<hr>
+	<%= render partial: '/cnpjs/form', :locals => { cnpj: @client.cnpj } %>
+	
+	<br/>
+  
+	<h4>CONTATOS</h4>
+	<hr>
+	<div id="content-client-contacts" >
+	  	<% @client.client_contacts.each do |client_contact| %>
+	  		<div class="content-client-contact" >
+				<%= render partial: '/clients/client_contact', :locals => { client_contact: client_contact } %>
+			</div>
+		<% end %>
+	</div>
+	
+	<%= link_to "Adicionar novo contato", client_add_contact_path(@client.id), class: "btn btn-link", id: 'add-client-contact' %>
+
+	<br/>
+	<br/>
+
+	<h4>FATURAMENTO</h4>
+	<hr>
+	<div class="row form-group">
+	    <div class="col-md-3">
+	    <%= f.label :payday, 'VENCIMENTO (dia)' %>
+	    <%= f.number_field :payday, class: "form-control", placeholder: "Dia de vencimento", min: 1 %>
+	    </div>
+	    <div class="col-md-3">
+	      <%= f.label :additional_time_day, 'PRAZO ESTENDIDO (dias)' %>
+	      <div class="form-group dubleInput">
+	      <%= f.number_field :additional_time_day, class: "form-control", placeholder: "Prazo em dias"  %>
+	      <%= f.select :additional_time_day_based, ['Úteis', 'Corridos'], {}, class: "form-control" %>
+	      </div>
+	    </div>
+  	</div>
+<% end %>
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag 'client_steps' %>
+<% end %>

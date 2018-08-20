@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vat_number: MyString
+  company_name: MyString
+  trading_name: MyString
+  street_address: MyString
+  neighborhood_address: MyString
+  city_address: MyString
+  uf_address: MyString
+  detail_address: MyString
+  cep_address: MyString
+  email: MyString
+  phone: MyString
+  situation: MyString
+  situation_date: 2016-10-13
+  type: 
+  legal_nature: MyString
+  opening_date: 2016-10-13
+
+two:
+  vat_number: MyString
+  company_name: MyString
+  trading_name: MyString
+  street_address: MyString
+  neighborhood_address: MyString
+  city_address: MyString
+  uf_address: MyString
+  detail_address: MyString
+  cep_address: MyString
+  email: MyString
+  phone: MyString
+  situation: MyString
+  situation_date: 2016-10-13
+  type: 
+  legal_nature: MyString
+  opening_date: 2016-10-13

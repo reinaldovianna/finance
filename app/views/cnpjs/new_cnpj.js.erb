@@ -1,0 +1,27 @@
+$("#modal-cnpj").html("<%= escape_javascript(render 'cnpjs/new_cnpj') %>");
+
+$('#modal-cnpj').on('hidden.bs.modal', function () {
+	$('.id_cnpj-modal-active').removeClass('id_cnpj-modal-active');
+	$('.vat_number_cnpj-modal-active').removeClass('vat_number_cnpj-modal-active');
+});
+
+$('#form-cnpj').on('ajax:success', function(){
+    $("#modal-cnpj").modal('hide');
+    
+    update_cnpj_vat_number();
+
+    $('.id_cnpj-modal-active').removeClass('id_cnpj-modal-active');
+	$('.vat_number_cnpj-modal-active').removeClass('vat_number_cnpj-modal-active');
+});
+
+/************************Functions************************/
+
+var update_cnpj_vat_number = function() {
+	$id_cnpj = $('.id_cnpj-modal-active');
+	$id_cnpj.val($('.modal-body #cnpj_id').val());
+    $id_cnpj.removeClass('id_cnpj-modal-active');
+
+	$vat_number_cnpj = $('.vat_number_cnpj-modal-active');
+	$vat_number_cnpj.val($('.modal-body #cnpj_vat_number').val());
+    $vat_number_cnpj.removeClass('vat_number_cnpj-modal-active');	
+}

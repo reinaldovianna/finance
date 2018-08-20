@@ -1,0 +1,26 @@
+<tr style="background-color: #f1f1f1">
+    <td></td>
+    <td>
+        <strong>Vencimento</strong><br>
+        <span class="rmwhei"><%= channel.date_payment.strftime("%d/%m/%Y") %></span>
+    </td>
+    <td>
+        <strong>Prazo estendido</strong><br>
+        <span class="rmwhei"><%= channel.additional_time_unabbreviated %></span>
+    </td>
+    <td>
+        <strong>Data limite</strong><br>
+        <span class="rmwhei"><%= channel.additional_time_date.strftime("%d/%m/%Y") %></span>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <strong>Total parcial</strong><br>
+        <span class="rmwhei">--</span>
+    </td>
+    <td>
+        <strong>Total a pagar</strong><br>
+        <span class="rmwhei">--</span>
+    </td>
+</tr>

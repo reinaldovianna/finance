@@ -1,0 +1,39 @@
+$("#modal-cnpj").html("<%= escape_javascript(render 'cnpjs/edit_cnpj') %>");
+
+$('#modal-cnpj').on('hidden.bs.modal', function () {
+	$('.id_cnpj-modal-active').removeClass('id_cnpj-modal-active');
+	$('.vat_number_cnpj-modal-active').removeClass('vat_number_cnpj-modal-active');
+});
+
+$('#form-cnpj').on('ajax:success', function(){
+    $("#modal-cnpj").modal('hide');
+    
+    update_cnpj_vat_number();
+
+    $('.id_cnpj-modal-active').removeClass('id_cnpj-modal-active');
+	$('.vat_number_cnpj-modal-active').removeClass('vat_number_cnpj-modal-active');
+});
+
+$('#select-cnpj').change(function(){ 
+    $value = $(this).val();
+    selectEditCnpjPartial($value);
+});
+
+/************************Functions************************/
+
+var update_cnpj_vat_number = function() {
+	$id_cnpj = $('.id_cnpj-modal-active');
+	$id_cnpj.val($('.modal-body #cnpj_id').val());
+    $id_cnpj.removeClass('id_cnpj-modal-active');
+
+	$vat_number_cnpj = $('.vat_number_cnpj-modal-active');
+	$vat_number_cnpj.val($('.modal-body #cnpj_vat_number').val());
+    $vat_number_cnpj.removeClass('vat_number_cnpj-modal-active');	
+}
+
+var selectEditCnpjPartial = function(value) {
+	$edit_cnpj_partial_path = '/cnpjs/edit_cnpj_partial/'+value;
+	$.get($edit_cnpj_partial_path, function(data) {
+		$("#cnpj-form-edit").html(data.form);
+	});
+};

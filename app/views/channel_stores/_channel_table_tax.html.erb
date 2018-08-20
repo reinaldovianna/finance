@@ -1,0 +1,56 @@
+<% content_for(:page_modal, flush: true) do %>
+  <div id="modal-table-tax" class="modal fade" role="dialog" aria-labelledby="TableTax" aria-hidden="true"></div>
+<% end %>
+
+<h4>TABELA DE TRIBUTOS</h4>
+<hr>
+<%= fields_for 'table_taxes[]', table_tax do |table_tax_fields| %>
+<%= table_tax_fields.hidden_field :id %>
+<div class="row form-group">
+  <div class="col-md-6">
+    <%= table_tax_fields.label :channels do %>
+      Canais <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Selecione um ou mais canais"></i>
+    <% end %>
+    <p class="help-block">Para selecionar multiplos canais segure a tecla <span class="badge">CTRL</span> </br>e selecione os itens desejados.</p>
+    
+    <%=select_tag 'channels[]', options_for_select(
+                              list_channels(@client), 
+                              selected_channels(@client, table_tax)
+                              ), :multiple => true, class: "form-control"%>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="endereco">Tabela Tribuária <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Selecione a tabela de tributos"></i></label>
+      <p class="help-block">Escolha a tabela para associar aos canais selecionados </br> anteriormente.</p>
+      <div class="btn-group btn-group-justified" role="group" style="width:100%" >
+        <a href="" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:100%">
+          <%=channel_tax_selected(table_tax)%><div class="pull-right"><span class="caret"></span></div>
+        </a>
+        <ul id=<%="table-tax-list-#{table_tax.id}"%> class="dropdown-menu table-tax-list fade-in-0-5-s" role="menu" style="width:100%">
+          <% @client_taxes_list.each do |client_table_taxe| %>
+            <div style="position:relative;" class="tax-option-group" >
+              <a href='' role='button' class='btn tax-option' style='width:100%' data-table-tax-id=<%=client_table_taxe.id.to_s%> ><%=client_table_taxe.name %>
+                
+              </a>
+              <%= link_to '', client_remove_table_tax_path({:id=> client_table_taxe.client.id,:table_tax_id => client_table_taxe.id }), :class => 'remove-client-table-tax glyphicon glyphicon-remove' %>
+            </div>
+          <% end %>
+          <% @table_taxes_global.each do |table_taxe_global| %>
+            <a href='' role='button' class='btn tax-global-option' style='width:100%; background:#f5f5dc;' data-table-tax-id=<%=table_taxe_global.id.to_s%> ><%=table_taxe_global.name %>
+            </a>
+          <% end %>
+          <%= link_to new_table_tax_modal_path,  {:remote => true, 'data-toggle' => "modal", 'data-target' => "#modal-table-tax", "role" => "button", :class => "btn open-tax-modal",  "style"=>"width:100%" }  do %>
+            <i class="glyphicon glyphicon-plus"></i> Adicionar Tabela Global
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row form-group">
+  <div class="col-md-12 table-tax-context">
+    <%= render partial: '/table_taxes/form', :locals => { table_tax: table_tax } %>
+  </div>
+</div>
+<% end %>

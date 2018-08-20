@@ -1,0 +1,89 @@
+<% provide(:title, "#{@client.cnpj.trading_name}") %>
+
+<h1 class="page-header fade-in-0-5-s"><%= @client.cnpj.trading_name %>
+    <small>
+        <%= link_to edit_client_path(@client.id) do%>
+            <i class="fa fa-pencil transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+        <%end%>
+    </small>
+</h1>
+<div class="row fade-in-0-5-s">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>Razão Social:</dt>
+            <dd><%= @client.cnpj.company_name %></dd>
+            <dt>Nome Fantasia:</dt>
+            <dd><%= @client.cnpj.trading_name %></dd>
+            <dt>CNPJ:</dt>
+            <dd><%= @client.cnpj.vat_number %></dd>
+            <dt>Inscrição Municipal:</dt>
+            <dd>----</dd>
+            <dt>Endereço:</dt>
+            <dd><%= [@client.cnpj.street_address, @client.cnpj.detail_address, @client.cnpj.city_address].reject { |c| c.blank? }.join(", ") %> <br> 
+            <%= [@client.cnpj.cep_address, @client.cnpj.neighborhood_address, @client.cnpj.uf_address].reject { |c| c.blank? }.join(" - ") %></dd>
+            <dt>Contato(s):</dt>
+            <% @client.client_contacts.each do |contact| %>
+                <% contact_format = [contact.name, contact.email, contact.phone].reject{|c| c.blank?}.join('<br>')
+
+                    if contact_format.present?
+                %>
+                
+                    <dd><%=contact_format.html_safe %></dd>
+                    <br/>
+                
+                <%  end
+                  end %>
+        </dl>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>
+<hr>
+<h3>
+    Editar canais
+    <small>
+        <%= link_to client_channel_stores_path(@client.id) do%>
+            <i class="fa fa-pencil transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+        <%end%>
+    </small>
+</h3>
+<div class="row fade-in-0-5-s">
+    <%
+    channel_stores_actives = @client.channel_stores.select{|channel| channel.active? } 
+    channel_stores_actives.each_slice(3) do |channel_store| 
+    %>
+    <% channel_store.each do |channel| %>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                        <%= "<span class='label label-default #{channel.marketplace.name.parameterize}'> #{channel.marketplace.name} </span>".html_safe if channel.marketplace %>
+                    <h4><%= channel.name %></h4>
+                    <dl>
+                        <dt>CNPJ Associado:</dt>
+                        <dd><%= channel.cnpj.vat_number %></dd>
+                        <dt>Mensalidade:</dt>
+                        <dd>R$ <%= channel.monthly_payment %></dd>
+                        <dt>Valor por pedido:</dt>
+                        <dd>R$ <%= channel.order_payment %></dd>
+                        <dt>Vencimento:</dt>
+                        <dd>dia <%= channel.payday %></dd>
+                        <dt>Prazo adicional:</dt>
+                        <dd><%= channel.additional_time_unabbreviated %></dd>
+                        <dt>Tabela de tributos:</dt>
+                        <dd><%= channel.table_tax.name %></dd>
+                      <% if channel.store && channel.store.active? %>
+                        <hr>
+                        <dt>Informações da loja:</dt>
+                        <dd>E-mail: <%= channel.store.email %></dd>
+                        <dd>Token: <%= channel.store.token %></dd>
+                      <% end %>
+                    </dl>
+
+
+                    <a href="gerenciarFaturamento.html" class="pull-right" style="display:none" ><strong>GERENCIAR FATURAMENTO</strong></a>
+                </div>
+            </div>
+        </div>
+    <% end %>
+  <% end %>
+</div>

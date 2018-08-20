@@ -1,0 +1,43 @@
+<% provide(:title, "Pendências | Clientes") %>
+
+<div class="page-header fade-in-0-5-s">
+    <h1>Cadastros não finalizados</h1>
+    <div class="clearfix"></div>
+</div>
+<div class="row fade-in-0-5-s">
+    <div class="col-md-12">
+        <section class="clientList">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome Fantasia</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th>
+                        <th>O que falta?</th>
+                        <th>Atualizado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% @clients.each do |client| %>
+                    <tr>
+                        <td><%= replace_if_null(client.cnpj.trading_name) %></td>
+                        <td><%= replace_if_null(client.cnpj.company_name) %></td>
+                        <td><%= replace_if_null(client.cnpj.vat_number) %></td>
+                        <td>
+                            <ul class="list-unstyled">
+                                <% list_pendencies(client).each do |pendency| %>
+                                    <li>
+                                      <%= link_to pendency[:step], pendency[:path] %>
+                                    </li>
+                                <% end %>
+                            </ul>
+                        </td>
+                        <td><%= replace_if_null(client.updated_at.strftime("%d/%m/%Y %H:%M")) %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+            <%= will_paginate @clients, renderer: BootstrapPagination::Rails %>
+        </section>
+    </div>
+</div>

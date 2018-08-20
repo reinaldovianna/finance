@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" id="table-tax-title">Cadastro de Tributos</h4>
+    </div>
+      <%= form_for @table_tax, :method => 'POST', :html => {:id => 'form-global-table-tax', :multipart => true,:remote => true, 'data-table-tax-id' => @table_tax.id.to_s}, url: table_taxes_path do |f| %>
+
+        <% if @table_tax.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@table_tax.errors.count, "error") %> prohibited this table_tax from being saved:</h2>
+
+            <ul>
+            <% @table_tax.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+      <div class="modal-body">
+        <%= render partial: 'form', :locals => { table_tax: @table_tax } %>
+      </div>
+      <div class="modal-footer">
+        <%= f.submit 'Salvar', class: 'btn btn-primary' %> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+$("#modal-table-tax").html("<%= escape_javascript(render 'table_taxes/new_table_tax') %>");
+
+$(document).ready(function() {
+  $('#modal-table-tax').on('show.bs.modal', function(e) {
+    $('.chosen-select', this).chosen({width: "100%"});
+  });
+
+  $("#modal-table-tax").modal('show');
+});
+
+$('#modal-table-tax').on('hidden.bs.modal', function () {
+   $('.table-tax-list-modal-active').removeClass('table-tax-list-modal-active');
+   removeTableTax();
+});
+
+$('#form-global-table-tax').on('ajax:success', function(){
+    $("#modal-table-tax").modal('hide');
+    update_list_global_tables();
+});
+
+$('#form-global-table-tax').on('ajax:error', function(data){
+    setAlert('danger', 'Todos os campos do registro devem estar preenchidos.');
+});
+
+var removeTableTax = function() {
+  	data = { table_tax: { id: $('#modal-table-tax').find('.table-tax-id').val() } };
+
+    $.post( '/table_taxes/remove_unsaved_instance', data );
+ }
+
+var update_list_global_tables = function() {
+  $html_text = "<a href='#' role='button' class='btn tax-global-option' style='width:100%; background:#f5f5dc;' data-table-tax-id='"+$('#modal-table-tax').find('.table-tax-id').val()+"' >"+$('#modal-table-tax').find('.table-tax-name').val()+" <span class='label label-as-badge label-default'>Novo</span></a>";
+  $('#content-table-taxes').find('.table-tax-list-modal-active .open-tax-modal').first().before($html_text);
+  $('.table-tax-list-modal-active').removeClass('table-tax-list-modal-active');
+}
+
+var setAlert = function(type, message) {
+    var alertTypeClass;
+    alertTypeClass = 'alert-' + type;
+    $('#modal-table-tax').find('.table-tax-alert').html("<div class='alert " + alertTypeClass + "'>" + message + "</div>");
+    $('#modal-table-tax').find('.table-tax-alert').fadeOut('fast').fadeIn(400);
+};

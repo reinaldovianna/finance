@@ -1,0 +1,56 @@
+<%= fields_for :cnpj, cnpj do |cnpj_fields| %>
+  <%= cnpj_fields.hidden_field :id %>
+  <%= cnpj_fields.hidden_field :vat_number %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= cnpj_fields.label :company_name, 'RAZÃO SOCIAL' %>
+      <%= cnpj_fields.text_field :company_name, class: "form-control", placeholder: "Razão Social", :required => cnpj.validate_fields?%>
+    </div>
+    <div class="col-md-6">
+      <%= cnpj_fields.label :trading_name, 'NOME FANTASIA' %>
+      <%= cnpj_fields.text_field :trading_name, class: "form-control", placeholder: "Nome Fantasia", :required => cnpj.validate_fields? %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-5">
+      <%= cnpj_fields.label :street_address, 'LOGRADOURO' %>
+      <%= cnpj_fields.text_field :street_address, class: "form-control", placeholder: "Nome da Rua", :required => cnpj.validate_fields? %>
+    </div>
+    <div class="col-md-2">
+      <%= cnpj_fields.label :number_address, 'NÚMERO' %>
+      <%= cnpj_fields.text_field :number_address, class: "form-control", placeholder: "Ex.: 102", :required => cnpj.validate_fields?%>
+    </div>
+    <div class="col-md-5">
+      <%= cnpj_fields.label :detail_address, 'COMPLEMENTO' %>
+      <%= cnpj_fields.text_field :detail_address, class: "form-control", placeholder: "Ex. Fundos, Bloco J...", :required => cnpj.validate_fields? %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-2">
+      <%= cnpj_fields.label :cep_address, 'CEP' %>
+      <%= cnpj_fields.text_field :cep_address, class: "form-control", placeholder: "Ex.: 23050-070", :data => {:mask=> '99999-999'}, :required => cnpj.validate_fields? %>
+    </div>
+    <div class="col-md-4">
+      <%= cnpj_fields.label :neighborhood_address, 'BAIRRO' %>
+      <%= cnpj_fields.text_field :neighborhood_address, class: "form-control", placeholder: "Nome do Bairro", :required => cnpj.validate_fields? %>
+    </div>
+    <div class="col-md-4">
+      <%= cnpj_fields.label :city_address, 'MUNICÍPIO' %>
+      <%= cnpj_fields.text_field :city_address, class: "form-control", placeholder: "Nome do Município", :required => cnpj.validate_fields? %>
+    </div>
+    <div class="col-md-2">
+      <%= cnpj_fields.label :uf_address, 'UF' %>
+      <%= cnpj_fields.select :uf_address, ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'], {:prompt => '-- Selecione --'}, class: "form-control", :required => cnpj.validate_fields? %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <%= cnpj_fields.label :email, 'E-MAIL' %>
+      <%= cnpj_fields.email_field :email, class: "form-control", placeholder: "cliente@email.com", :required => cnpj.validate_fields? %>
+    </div>
+    <div class="col-md-6">
+      <%= cnpj_fields.label :phone, 'TELEFONE' %>
+      <%= cnpj_fields.text_field :phone, class: "form-control", placeholder: "(99) 99999999*", :data => {:mask=> '(99) 99999999*', :required => cnpj.validate_fields? }%>
+    </div>
+  </div>
+<% end %>

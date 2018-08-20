@@ -1,0 +1,19 @@
+<% provide(:page_title, "Adicionar canais") %>
+
+<%= render layout: 'form' do |f| %>
+  <h4>INFORMAÇÕES DOS CANAIS</h4>
+
+  <div id="content-channel-stores" >
+    <% @client.channel_stores.each do |channel_store| %>
+	    <div class='content-channel-store'>
+	    	<%= render partial: '/channel_stores/form', :locals => { channel_store: channel_store } %>
+	   	</div>
+    <% end %>
+  </div>
+
+  <%= link_to "Adicionar novo canal", client_add_channel_store_path(@client.id), class: "btn btn-link", id: 'add-channel-store' %>
+<% end %>
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag 'client_channel_stores' %>
+<% end %>

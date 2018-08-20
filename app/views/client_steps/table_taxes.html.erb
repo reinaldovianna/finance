@@ -1,0 +1,16 @@
+<% provide(:page_title, "Adicionar tabela de tributos") %>
+
+<%= render layout: 'form' do |f| %>
+  <div id="content-table-taxes" >
+	  <% @taxe_channels.each do |table_tax| %>
+	  	<div class='content-table-tax'>
+	    	<%= render partial: '/channel_stores/channel_table_tax', :locals => { table_tax: table_tax } %>
+	    </div>
+	  <% end %>
+	</div>
+<% end %>
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag 'table_taxes' %>
+  <%= javascript_include_tag 'client_table_taxes' %>
+<% end %>

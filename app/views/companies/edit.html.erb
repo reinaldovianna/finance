@@ -1,0 +1,30 @@
+<% provide(:title, "Cadastro da Empresa") %>
+
+<div class="page-header">
+ <h1>Editar Cadastro da Empresa</h1>
+ <div class="clearfix"></div>
+</div>
+
+<%= form_for @company, :html => {:class => 'fade-in-0-5-s'} do |f| %>
+  <% if @company.errors.any? %>
+    <div class="error_messages">
+      <h2><%= pluralize(@company.errors.count, "error") %> prohibited this company_object from being saved:</h2>
+      <ul>
+      <% @company.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <%= f.hidden_field :id %>
+
+    <%= render partial: '/cnpjs/form', :locals => { cnpj: @company.cnpj } %>
+
+<br/>
+<div class="actions text-right">
+  <div class="row">
+    <div class="col-md-3"><%= link_to "Sair", clients_path, class: "btn btn-danger btn-block" %> </div>
+    <div class="col-md-3 col-md-push-6"><%= f.submit 'Salvar', class: 'btn btn-primary btn-block' %> </div>
+  </div>
+</div>
+<% end %>

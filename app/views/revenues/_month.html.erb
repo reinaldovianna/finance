@@ -1,0 +1,58 @@
+<% @channel_arr = channel_sort_by_cnpj_monthly_payment(@client) %>
+
+<% @channel_arr.map{|c| c.cnpj.vat_number }.uniq.each do |cnpj| %>
+<div class="row">
+    <%= form_for revenue, :html => {:class => 'fade-in-0-5-s'} do |f| %>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="9">
+                                <h1>
+                                    <small><%= cnpj %></small>
+                                </h1>
+        					</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>Marketplace</th>
+                            <th>Valor da mensalidade</th>
+                            <th>Qtd de pedidos</th>
+                            <th>Valor por pedido</th>
+                            <th>Total do pedido</th>
+                            <th>Tributos</th>
+                            <th>Valor parcial</th>
+                            <th>Valor total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @channel_arr.each_with_index do |channel, index| %>
+                            <% next if channel.cnpj.vat_number != cnpj %>
+                            
+                            <%= render partial: '/revenues/channel_store', :locals => {:channel_store => channel} %>
+
+                            <% 
+                                if additional_time_date_changed?(channel) || is_last_channel?(channel, @channel_arr) ||
+                                   channel.cnpj.vat_number != @channel_arr[index+1].cnpj.vat_number
+                            %>
+                                <%= render partial: '/revenues/channel_footer', :locals => {:channel => channel} %>
+                            <% end %>
+
+                            <% @old_additional_time_date = channel.additional_time_date %>
+                            <% @old_cnpj = channel.cnpj.vat_number %>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <%= f.submit "Gerar Boleto", class: "btn btn-success" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+<% end %>
+<br/>

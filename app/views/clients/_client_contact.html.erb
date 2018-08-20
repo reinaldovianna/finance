@@ -1,0 +1,23 @@
+<%= fields_for 'client_contacts[]', client_contact do |contact_fields| %>
+  <%= contact_fields.hidden_field :id %>
+  <div class="row form-group">
+    <div class="col-md-4">
+      <%= contact_fields.label :name, 'NOME' %>
+      <%= contact_fields.text_field :name, class: "form-control", placeholder: "Nome" %>
+    </div>
+    <div class="col-md-4">
+      <%= contact_fields.label :email, 'E-MAIL' %>
+      <%= contact_fields.email_field :email, class: "form-control", placeholder: "email@domain.com" %>
+    </div>
+    <div class="col-md-3">
+      <%= contact_fields.label :phone, 'TELEFONE' %>
+      <%= contact_fields.text_field :phone, class: "form-control", placeholder: "(99) 99999999*", :data => {:mask=> '(99) 99999999*'} %>
+    </div>
+    <div class="col-md-1">
+      <%= label 'acoes', '', 'Ações' %> <br/>
+      <%= link_to(client_remove_contact_path({:id => client_contact.client.id, :contact_id => client_contact.id }), 'data-contact-id' => client_contact.id.to_s, class:"btn btn-danger remove-contact") do %>
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class ChannelStoresController < ApplicationController
+end

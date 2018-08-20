@@ -1,0 +1,66 @@
+<% content_for(:page_modal, flush: true) do %>
+  <div id="modal-table-tax" class="modal fade" role="dialog" aria-labelledby="TableTax" aria-hidden="true"></div>
+<% end %>
+
+<% provide(:title, "Tributos") %>
+<% provide(:page_title, "Tributos") %>
+
+<div class="page-header">
+    <h1>Tributos</h1> 
+    <div class="dropdown filter">
+        <%= form_tag tributes_path, :method => 'get' do %>
+            <%= link_to new_table_tax_modal_path,  {:remote => true, 'data-toggle' => "modal", 'data-target' => "#modal-table-tax", "role" => "button", :class => "btn btn-primary open-tax-modal" } do %>
+                Nova Tabela Global <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <%end%>
+
+            <%= render partial: '/shared/search' %>
+        <% end %>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="row fade-in-0-5-s">
+    <div class="col-md-12">
+        <section class="clientList">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome Fantasia</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th>
+                        <th>Tabela(s) de Tributos</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <% @clients.each do |client| %>
+                    <tr>
+                        <td><%= client.cnpj.trading_name %></td>
+                        <td><%= client.cnpj.company_name %></td>
+                        <td><%= client.cnpj.vat_number %></td>
+                        <td>
+                            <% client.taxes_by_channels.each do |tax| %>
+                                <%= tax.name %>
+                                <br/>
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to tribute_path(client.id) do%>
+                            <i class="fa fa-search-plus transform-scale-1-2-hover transition-3-s" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Ver detalhes"></i>
+                            <%end%>
+                        </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+            </table>
+            <%= will_paginate @clients, renderer: BootstrapPagination::Rails %>
+        </section>
+    </div>
+</div>
+
+<%= "<div class='alert alert-info alert-dismissible fade in floatAlert'><button type=''button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Info!</strong> #{notice}</div>".html_safe if notice %>
+
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag 'table_taxes' %>
+<% end %>

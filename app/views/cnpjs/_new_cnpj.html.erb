@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" id="cnpj-title">Cadastro Nacional da Pessoa Jurídica</h4>
+    </div>
+      <%= form_for @cnpj, :method => 'POST', :html => {:id => 'form-cnpj', :multipart => true,:remote => true, 'data-cnpj-id' => @cnpj.id.to_s}, url: cnpjs_path do |f| %>
+
+        <% if @cnpj.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@cnpj.errors.count, "error") %> prohibited this cnpj from being saved:</h2>
+
+            <ul>
+            <% @cnpj.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+      <div class="modal-body">
+        <%= render partial: 'form', :locals => { cnpj: @cnpj } %>
+      </div>
+      <div class="modal-footer">
+        <%= f.submit 'Salvar', class: 'btn btn-primary' %> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<% provide(:title, "Clientes") %>
+<% provide(:page_title, "Clientes") %>
+
+<div class="page-header">
+    <h1>Clientes</h1> 
+    <div class="dropdown filter">
+        <%= form_tag clients_path, :method => 'get' do %>
+            <%= link_to clients_path, method: :post, class: "btn btn-primary new-client" do%>
+                Novo Cliente <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <%end%>
+
+            <%= render partial: '/shared/search' %>
+        <% end %>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="row fade-in-0-5-s">
+    <div class="col-md-12">
+        <section class="clientList">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome Fantasia</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th>
+                        <th>Lojas</th>
+                        <th>Marketplaces</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <% @clients.each do |client| %>
+                    <tr>
+                        <td><%= client.cnpj.trading_name %></td>
+                        <td><%= client.cnpj.company_name %></td>
+                        <td><%= client.cnpj.vat_number %></td>
+
+                        <% stores = active_stores(client) %>
+                        
+                        <td>
+                            <ul class="list-unstyled">
+                            <% stores.each_with_index do |store, index| %>
+                                <%= hr_table_row if index != 0 %>
+                                <li><%= store.name %></li>
+                            <% end %>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                            <% stores.each_with_index do |store, index| %>
+                                <%= hr_table_row if index != 0 %>
+                                <li>
+                                <% marketplaces_by_store(client, store).each do |marketplace|%>
+                                    <%= "<span class='label label-success #{marketplace.name.parameterize}'> #{marketplace.name} </span>".html_safe %>
+                                <% end %>
+                                </li>
+                            <% end %>
+                            </ul>
+                        </td>
+                        <td>
+                            <%= link_to client_path(client.id) do%>
+                            <i class="fa fa-search-plus transform-scale-1-2-hover transition-3-s" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Ver detalhes"></i>
+                            <%end%>
+                        </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+            </table>
+            <%= will_paginate @clients, renderer: BootstrapPagination::Rails %>
+        </section>
+    </div>
+</div>
+
+<%= "<div class='alert alert-info alert-dismissible fade in floatAlert'><button type=''button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Info!</strong> #{notice}</div>".html_safe if notice %>

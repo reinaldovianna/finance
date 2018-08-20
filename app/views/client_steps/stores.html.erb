@@ -1,0 +1,19 @@
+<% provide(:page_title, "Adicionar lojas") %>
+
+<%= render layout: 'form' do |f| %>
+  <h4>INFORMAÇÕES DAS LOJAS</h4>
+
+  <div id="content-stores" >
+    <% @client.stores.each do |store| %>
+	    <div class="content-store">
+	      <%= render partial: '/stores/form', :locals => { store: store } %>
+	    </div>
+    <% end %>
+  </div>
+
+  <%= link_to "Adicionar nova loja", client_add_store_path(@client.id), class: "btn btn-link", id: 'add-store' %>
+<% end %>
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag 'client_stores' %>
+<% end %>

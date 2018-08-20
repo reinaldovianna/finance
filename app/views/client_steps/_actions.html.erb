@@ -1,0 +1,23 @@
+<br/>
+<hr>
+<div class="actions text-right">
+  <div class="row">
+    <div class="col-md-3"><%= link_to "Sair", clients_path, class: "btn btn-danger btn-block" %> </div>
+    <div class="col-md-3"><%= link_to "Anterior", previous_wizard_path, class: "btn btn-default btn-block skip-pred" unless step_is_first? %> </div>
+
+    <div class="col-md-3">
+      <% if step_is_last? %>
+        <%= f.submit "Salvar e Parar", class: 'btn btn-warning btn-block' %>
+      <% else %>
+        <%= link_to "Pular Etapa", next_wizard_path, class: "btn btn-default btn-block skip-next" %> 
+      <% end %>
+    </div>
+    
+    <% 
+      finish_label = step_is_last? ? 'Concluir Cadastro' : 'Salvar e Continuar'
+      finish_class = step_is_last? ? 'btn btn-primary btn-block' : 'btn btn-primary btn-block'
+    %>
+    <div class="col-md-3"><%= f.submit finish_label, class: "#{finish_class} client-step-submit" %> </div>
+  </div>
+</div>
+<br/><br/>

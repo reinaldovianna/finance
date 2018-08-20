@@ -1,0 +1,22 @@
+<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Refinar <i class="fa fa-sliders" aria-hidden="true"></i>
+</button>
+
+<ul class="dropdown-menu dropdown-menu-right filterList" aria-labelledby="dropdownMenu1">
+    <li><h3>Refinar Resultados</h3></li>
+    <%= hidden_field_tag :is_search, true %>
+    <li>
+        <div class="form-group">
+            <%= text_field_tag :trading_name, params[:trading_name], class: 'form-control', placeholder: 'Nome Fantasia' %>
+        </div>
+        <div class="form-group">
+            <%= text_field_tag :company_name, params[:company_name], class: 'form-control', placeholder: 'Razão Social' %>
+        </div>
+        <div class="form-group">
+            <%= text_field_tag :vat_number, params[:vat_number], class: 'form-control', placeholder: 'CNPJ', :data => {:mask=> '99.999.999/9999-99'} %>
+        </div>
+        <button type="button" class="btn btn-default" style="display:none">Limpar filtro</button>
+        <%= submit_tag "Search", class: 'btn btn-primary filterButtonOK' %>
+        <div class="clearfix"></div>
+    </li>
+</ul>

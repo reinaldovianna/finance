@@ -1,0 +1,21 @@
+<div class="page-header">
+ <h1><%= yield(:page_title) %></h1>
+ <div class="clearfix"></div>
+</div>
+
+<%= render partial: 'wizard_bar' %>
+<% provide(:title, "Cadastro de Clientes") %>
+<%= form_for @client, url: wizard_path, :html => {:class => 'fade-in-0-5-s'} do |f| %>
+  <% if @client.errors.any? %>
+    <div class="error_messages">
+      <h2><%= pluralize(@client.errors.count, "error") %> prohibited this client_object from being saved:</h2>
+      <ul>
+      <% @client.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= yield f %>
+  <%= render partial: 'actions', :locals => { f: f } %>
+<% end %>

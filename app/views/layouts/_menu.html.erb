@@ -1,0 +1,66 @@
+<% if user_signed_in? %>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <%= link_to root_path, :class => "navbar-brand" do %>
+          <img src="/assets/finance_ng.png">
+        <% end %>
+      </div>
+
+    <div class="container">
+      <div id="navbar" class="navbar-collapse collapse skynavbar">
+        <ul class="nav navbar-nav navbar-menu-custom">
+
+            <li class='<%=menu_active(["clients", "client_steps"]) %>' >
+              <%= link_to 'Clientes', clients_path %>
+            </li>
+            <li class='<%=menu_active(["tributes"]) %>'>
+              <%= link_to 'Tributação', tributes_path %>
+            </li>
+            <li class='<%=menu_active(["revenues"]) %>' >
+              <%= link_to 'Faturamento', revenues_path %>
+            </li>
+            <li style="display:none">
+              <a href="#">Regras</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Bem vindo, <%=current_user.first_name %>!
+              </a>
+              <ul class="dropdown-menu fade-in-0-5-s">
+                <li>
+                  <%= link_to str_company_path do %>
+                    <i class="fa fa-cogs" aria-hidden="true"></i> Configurações
+                  <% end %>                
+                </li>
+                <li>
+                  <%= link_to ' Sair', destroy_user_session_path, :method => :delete, class: "glyphicon glyphicon-log-out" %>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown <%=menu_active(["pendencies"]) %>" style="<%= notification_count > 0 ? '' : 'pointer-events: none;' %>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-bell rotate-trim-0-2" aria-hidden="true"></i>
+                  <% if notification_count > 0 %>
+                    <span class="badge warning scale-1-4-0-3"><%=notification_count%></span>
+                  <% end %>
+                </a>
+                <% if notification_count %> 
+                <ul class="dropdown-menu fade-in-0-5-s">
+                  <li class="<%=menu_active(["pendencies"]) %>" >
+                    <%= link_to pendencies_client_path do%>
+                        <span class="label label-danger"><%=notification_count%></span>
+                        Cadastros não finalizados
+                    <%end%>
+                  </li>
+                </ul>
+                <% end %>
+            </li>
+        </ul>
+      </div>
+    </div>
+    
+    </div>
+  </nav>
+<% end %>

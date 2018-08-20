@@ -1,0 +1,10 @@
+default: &default
+  DATABASE_USER: 'admin'
+
+test:
+  <<: *default
+  DATABASE_PASSWORD: 'password'
+
+development:
+  <<: *default
+  DATABASE_PASSWORD: 'password'

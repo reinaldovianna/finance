@@ -1,0 +1,15 @@
+<tr>
+	<td>
+		<input type="checkbox" value="">
+	</td>
+	<td><span class="label label-default <%="#{channel_store.marketplace.name.parameterize}" %>"> <%= channel_store.marketplace.name %> </span></td>
+	<td>R$ <%= channel_store.monthly_payment %></td>
+	<td>--</td>
+	<td>R$ <%= channel_store.order_payment %></td>
+	<td>--</td>
+	<td>--</td>
+	<td>
+        R$ <%= Tribute.calc(channel_store) %>
+	</td>
+	<td>--</td>
+</tr>

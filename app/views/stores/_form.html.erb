@@ -1,0 +1,34 @@
+<hr>
+<%= fields_for 'stores[]', store do |stores_fields| %>
+  <div class="row form-group">
+    <div class="col-md-4">
+      <span class="label label-as-badge <%=status_label_class(store)%>"><%="#{status_object(store)}"%></span>
+      <% if store.removal_enabled? %>
+        <%= link_to client_remove_store_path({:id => store.client.id, :store_id => store.id}), :class => "label label-danger remove-store" do %>
+          <i class="glyphicon glyphicon-trash"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-4">
+      <%= stores_fields.label :name, 'NOME' %>
+      <%= stores_fields.text_field :name, class: "form-control", placeholder: "Nome da Loja", :required => store.active? %>
+    </div>
+    <div class="col-md-4">
+      <%= stores_fields.label :email, 'E-MAIL' %>
+      <%= stores_fields.email_field :email, class: "form-control", placeholder: "loja@email.com", :required => store.active? %>
+    </div>
+    <div class="col-md-4">
+      <%= stores_fields.label :token, 'TOKEN' %>
+      <div class="input-group">
+        <%= stores_fields.text_field :token, class: "form-control", placeholder: "Token da Loja", :required => store.active? %>
+        <div class="input-group-addon">
+          <%= link_to "" do %>
+            <i class="fa fa-refresh transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

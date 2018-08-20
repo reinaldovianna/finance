@@ -1,0 +1,86 @@
+<% content_for(:page_modal, flush: true) do %>
+  <div id="modal-cnpj" class="modal fade" role="dialog" aria-labelledby="Cnpj" aria-hidden="true"></div>
+<% end %>
+<hr>
+<%= fields_for 'channel_stores[]', channel_store do |channel_fields| %>
+  <div class="row form-group">
+    <div class="col-md-6">
+      <span class="label label-as-badge <%=status_label_class(channel_store)%>"><%="#{status_object(channel_store)}"%></span>
+      <% if !channel_store.active? %>
+        <%= link_to client_remove_channel_store_path({:id => channel_store.client.id, :channel_id => channel_store.id}), :class => "label label-danger remove-channel-store" do %>
+          <i class="glyphicon glyphicon-trash"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-3 ">
+      <%= channel_fields.hidden_field :cnpj_id %>
+      <%= label :vat_number, "cnpj_label_id", 'NÚMERO DE INSCRIÇÃO (CNPJ)' %>
+      <div class="input-group">
+      <%= text_field :vat_number,  "cnpj-channel-#{channel_store.id}", class: "form-control", placeholder: "00.000.000/0000-00", :required => channel_store.active?, :data => {:mask=> '99.999.999/9999-99'}, disabled: true, value: (channel_store.cnpj.vat_number if channel_store.cnpj) %>
+          <div class="input-group-addon">
+            <% if channel_store.cnpj && channel_store.cnpj.vat_number.present? %>
+              <%= link_to edit_cnpj_modal_path(channel_store.cnpj.id.to_s), :remote => true, 'data-toggle' => "modal", 'data-target'=>"#modal-cnpj", :class => "link-cnpj", 'data-object-id' => channel_store.id.to_s do %>
+                <i class="glyphicon glyphicon-pencil transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+              <%end%>
+            <% else %>
+              <%= link_to new_cnpj_modal_path, :remote => true, 'data-toggle' => "modal", 'data-target'=>"#modal-cnpj", :class => "link-cnpj", 'data-object-id' => channel_store.id.to_s do %>
+                <i class="glyphicon glyphicon-pencil transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+              <%end%>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  <% if channel_store.table_tax %>
+    <div class="col-md-6 col-md-push-3">
+      <%= label :table_tax, "tabela_tributos_id", 'TABELA DE TRIBUTOS' %>
+      <div class="input-group">
+      <%= text_field :table_tax,  "table-tax-#{channel_store.id}", class: "form-control", disabled: true, value: channel_store.table_tax.name %>
+        <div class="input-group-addon">
+          <%= link_to client_table_taxes_path(channel_store.client.id) do %>
+            <i class="glyphicon glyphicon-pencil transform-scale-1-5-hover transition-3-s" aria-hidden="true"></i>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-4">
+      <%= link_to 'Adicionar CNPJ diferente para este canal', new_cnpj_modal_path, :remote => true, 'data-toggle' => "modal", 'data-target'=>"#modal-cnpj", :class => "link-cnpj", 'data-object-id' => channel_store.id.to_s %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-6">
+    <%= channel_fields.label :store_id, 'LOJA' %>
+    <% @list_stores = list_store(channel_store) %>
+    <%= channel_fields.select :store_id, @list_stores, {:prompt => store_prompt_text(@list_stores) }, class: "form-control", disabled: @list_stores.blank?, :required => channel_store.active?  %>
+    </div>
+    <div class="col-md-6">
+    <%= channel_fields.label :marketplace_id, 'MARKETPLACE' %>
+    <%= channel_fields.select :marketplace_id, list_marketplace, {:prompt => '-- Selecione --'}, class: "form-control", :required => channel_store.active? %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-3">
+    <%= channel_fields.label :monthly_payment, 'MENSALIDADE' %>
+    <%= channel_fields.number_field :monthly_payment, class: "form-control", placeholder: "0.0", min: 0, step:0.01, :value => (number_with_precision(channel_fields.object.monthly_payment, :precision => 2)), :required => channel_store.active? %>
+    </div>
+    <div class="col-md-3">
+    <%= channel_fields.label :order_payment, 'PREÇO POR PEDIDO' %>
+    <%= channel_fields.number_field :order_payment, class: "form-control", placeholder: "0.0", min: 0, :step => 0.01, :value => (number_with_precision(channel_fields.object.order_payment, :precision => 2)), :required => channel_store.active? %>
+    </div>
+    <div class="col-md-3">
+    <%= channel_fields.label :payday, 'VENCIMENTO (dia)' %>
+    <%= channel_fields.number_field :payday, class: "form-control", placeholder: "Dia de vencimento", min: 1, :required => channel_store.active?  %>
+    </div>
+    <div class="col-md-3">
+      <%= channel_fields.label :additional_time_day, 'PRAZO ESTENDIDO (dias)' %>
+      <div class="form-group dubleInput">
+      <%= channel_fields.number_field :additional_time_day, class: "form-control", placeholder: "Prazo em dias"  %>
+      <%= channel_fields.select :additional_time_day_based, ['Úteis', 'Corridos'], {}, class: "form-control", :required => channel_store.active? %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+{
+  "AWSEBDockerrunVersion": 1,
+  "volumes": [
+    {
+      "name": "finance",
+      "host": {
+        "sourcePath": "/opt/app"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "finance",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 3002
+        }
+      ]
+    }
+  ]
+}

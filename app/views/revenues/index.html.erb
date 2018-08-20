@@ -1,0 +1,81 @@
+<% provide(:title, "Faturamento") %>
+
+<div class="page-header">
+	<h1>Faturamento</h1> 
+    <div class="dropdown filter">
+        <%= form_tag revenues_path, :method => 'get' do %>
+            <%= render partial: '/shared/search' %>
+        <% end %>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="row fade-in-0-5-s">
+	<div class="col-md-12">
+		<section class="clientList">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>CNPJ</th>
+						<th>Nome da loja</th>
+						<th>Marketplaces</th>
+						<th>Data de faturamento</th>
+						<th>Prazo Adicional</th>
+						<th>Situação do boleto</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+				<%
+				@clients.each do |client|
+					@revenues = list_revenues(client)
+				%>
+					<tr>
+						<td>
+							<% @revenues.each do |revenue| %>
+								<%=revenue[:channel_cnpj_number]%>
+								<br/>
+							<% end %>
+						</td>
+						<td>
+							<% @revenues.each do |revenue| %>
+								<div class="row">
+								<%=revenue[:store_name]%>
+								<br/>
+								</div>
+							<% end %>
+						</td>
+						<td>
+							<%
+							@revenues.each do |revenue|
+								marketplaces(client, revenue).each do |marketplace| %>
+									<span class='<%="label label-success #{marketplace.parameterize}"%>' ><%=marketplace%></span>
+								<% end %>
+								<br/>
+							<% end %>
+						</td>
+					   <td>
+							<% @revenues.each do |revenue| %>
+								<%=revenue[:date_payment]%>
+								<br/>
+							<% end %>
+					   </td>
+						<td>
+							<% @revenues.each do |revenue| %>
+								<%=revenue[:additional_time].mb_chars.downcase %>
+								<br/>
+							<% end %>
+						</td>
+						<td>Aberto</td>
+						<td>
+							<%= link_to revenue_path(client.id) do %>
+								<i class="fa fa-search-plus transform-scale-1-2-hover transition-3-s" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Ver detalhes"></i>
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+				</tbody>
+			</table>
+			<%= will_paginate @clients, renderer: BootstrapPagination::Rails %>
+		</section>
+	</div>
+</div>

@@ -1,0 +1,45 @@
+<div class="table-tax-alert" style="display:none" ></div>
+<div class="row form-group form-table-tax">
+  <div class="col-md-12">
+    <div class="form-group">
+    <%= fields_for table_tax do |f| %>
+      <%= f.hidden_field :id, 'data-table-id' => table_tax.id, :class => 'table-tax-id' %>
+
+      <% table_tax.row_ids.each do |row_id| %>
+        <%= f.hidden_field :row_ids, :multiple => true, :value => row_id %>
+      <% end %>
+      
+      <%= f.text_field :name, class: "form-control table-tax-name", placeholder: "Nome da tabela tributária", :required => table_tax.active? %>
+      <span class="help-block"></span>
+    </div>
+    <table class="table">
+      <thead>
+        <%= render partial: '/table_taxes/table_tax_row_fields' %>
+      </thead>
+      <tbody class="list-tax-rows">
+        <% table_tax.rows.each do |tax_row| %>
+          <%= render partial: '/table_taxes/table_tax_row_line', :locals => { row: tax_row } %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Regras Condicionais</h4>
+        <div class="table-tax-rules-alert" style="display:none" ></div>
+        <table class="table">
+            <thead class='table-tax-rule-fields'>
+                <%= render partial: '/table_taxes/table_tax_rule_fields', :locals => { table_tax: table_tax } %>
+            </thead>
+            <tbody class="list-tax-rules">
+              <% table_tax.rules.each do |tax_rule| %>
+                <%= render partial: '/table_taxes/table_tax_rule_line', :locals => { rule: tax_rule } %>
+              <% end %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

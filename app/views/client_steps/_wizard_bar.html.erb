@@ -1,0 +1,49 @@
+<%
+  if @client.stores.present? || @client.channel_stores.present? || @client.table_taxes.present?
+    @client_div = 'complete'
+    @stores_div = 'active'
+  else
+    @stores_div = 'disabled'
+  end
+
+  if @client.channel_stores.present? || @client.table_taxes.present?
+    @stores_div = 'complete'
+    @channel_div = 'active'
+  else
+    @channel_div = 'disabled'
+  end
+
+  if @client.table_taxes.present?
+    @channel_div = 'complete'
+    @taxes_div = 'active'
+  else
+    @taxes_div = 'disabled'
+  end
+%>
+
+<div class="row bs-wizard">          
+  <div class="<%="#{step_default_class} #{@client_div}" %>" >
+    <div class="text-center bs-wizard-stepnum">Cliente</div>
+    <div class="progress"><div class="progress-bar"></div></div>
+    <%= link_to "", wizard_path(:client), class: "#{default_a}#{a_current(:client)}" %>
+  </div>
+  
+  <div class="<%="#{step_default_class} #{@stores_div}" %>">
+    <div class="text-center bs-wizard-stepnum">Lojas</div>
+    <div class="progress"><div class="progress-bar"></div></div>
+    <%= link_to "", wizard_path(:stores), class: "#{default_a}#{a_current(:stores)}" %>
+  </div>
+  
+  <div class="<%="#{step_default_class} #{@channel_div}" %>">
+    <div class="text-center bs-wizard-stepnum">Canais</div>
+    <div class="progress"><div class="progress-bar"></div></div>
+    <%= link_to "", wizard_path(:channel_stores), class: "#{default_a}#{a_current(:channel_stores)}" %>
+  </div>
+  
+  <div class="<%="#{step_default_class} #{@taxes_div}" %>" >
+    <div class="text-center bs-wizard-stepnum">Tributos</div>
+    <div class="progress"><div class="progress-bar"></div></div>
+    <%= link_to "", wizard_path(:table_taxes), class: "#{default_a}#{a_current(:table_taxes)}" %>
+  </div>
+</div>
+</br>
