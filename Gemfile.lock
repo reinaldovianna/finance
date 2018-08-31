@@ -260,6 +260,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise (= 4.2.0)
   factory_girl_rails (~> 4.8)
+  font-awesome-rails
   holidays (= 5.3.0)
   jasny-bootstrap-rails
   jbuilder (~> 2.5)
