@@ -44,6 +44,8 @@ group :test do
 end
 
 group :production do
+	gem 'rails_serve_static_assets'
+	gem 'rails_stdout_logging'
   gem 'puma_worker_killer'
   gem 'newrelic_rpm'
   gem 'scout_apm', '~> 2.0'
